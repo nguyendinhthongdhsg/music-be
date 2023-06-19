@@ -110,27 +110,32 @@ class ListMusicController {
                 listFind = mutipleMongooseToObject(listFind);
                 if (listFind[0]) {
                     const listReq = req.query.listMusicJSON;
-                    const listRes = [];
-                    const lengthFind = listFind.length;
-                    const lengthReq = listReq.length;
-                    for (let i = 0; i < lengthFind; i++)
-                        for (let j = 0; j < lengthReq; j++)
-                            if (listFind[i].musicId === listReq[j])
-                                listRes.push(listFind[i]);
-                    const lengthRes = listRes.length;            
-                    let max, temp;
-                    for (let i = 0; i < lengthRes - 1; i++) {
-                        max = i;
-                        for (let j = i + 1; j < lengthRes; j++)
-                            if (listRes[max].listens < listRes[j].listens)
-                                max = j;
-                        if (max !== i) {
-                            temp = listRes[i];
-                            listRes[i] = listRes[max];
-                            listRes[max] = temp;
+                    if(listReq[0]) {
+                        const listRes = [];
+                        const lengthFind = listFind.length;
+                        const lengthReq = listReq.length;
+                        for (let i = 0; i < lengthFind; i++)
+                            for (let j = 0; j < lengthReq; j++)
+                                if (listFind[i].musicId === listReq[j])
+                                    listRes.push(listFind[i]);
+                        const lengthRes = listRes.length;            
+                        let max, temp;
+                        for (let i = 0; i < lengthRes - 1; i++) {
+                            max = i;
+                            for (let j = i + 1; j < lengthRes; j++)
+                                if (listRes[max].listens < listRes[j].listens)
+                                    max = j;
+                            if (max !== i) {
+                                temp = listRes[i];
+                                listRes[i] = listRes[max];
+                                listRes[max] = temp;
+                            }
                         }
+                        res.json(listRes);
                     }
-                    res.json(listRes);
+                    else {
+                        res.json([]);
+                    }
                 }
             })
             .catch(next)
