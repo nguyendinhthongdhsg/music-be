@@ -110,7 +110,7 @@ class ListMusicController {
                 listFind = mutipleMongooseToObject(listFind);
                 if (listFind[0]) {
                     const listReq = req.query.listMusicJSON;
-                    if(listReq[0]) {
+                    if(listReq) {
                         const listRes = [];
                         const lengthFind = listFind.length;
                         const lengthReq = listReq.length;
